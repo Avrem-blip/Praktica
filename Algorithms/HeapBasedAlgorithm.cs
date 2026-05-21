@@ -27,10 +27,14 @@ namespace Praktica.Algorithms
                 {
                     maxHeap.Enqueue(driverDistance, -distance); // Negative for max heap
                 }
-                else if (distance < -maxHeap.Peek().Priority)
+                else if (maxHeap.Count > 0)
                 {
-                    maxHeap.Dequeue();
-                    maxHeap.Enqueue(driverDistance, -distance);
+                    var peekElement = maxHeap.Peek();
+                    if (distance < -peekElement.Priority)
+                    {
+                        maxHeap.Dequeue();
+                        maxHeap.Enqueue(driverDistance, -distance);
+                    }
                 }
             }
 

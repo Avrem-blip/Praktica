@@ -89,13 +89,10 @@
             z-index: -1;
             pointer-events: none;
             background-image: 
-                /* Треугольники */
                 polygon(0% 0%, 50% 100%, 100% 0%),
                 polygon(100% 100%, 0% 100%, 50% 0%),
                 polygon(0% 50%, 100% 0%, 100% 100%),
                 polygon(50% 0%, 100% 50%, 50% 100%),
-                
-                /* Дополнительные геометрические фигуры */
                 polygon(20% 30%, 40% 20%, 50% 45%),
                 polygon(70% 70%, 85% 60%, 90% 85%),
                 polygon(10% 80%, 25% 75%, 20% 95%),
@@ -132,12 +129,9 @@
             z-index: -1;
             pointer-events: none;
             background-image: 
-                /* Круги разных размеров */
                 radial-gradient(circle, rgba(50, 97, 46, 0.25) 0%, transparent 70%),
                 radial-gradient(circle, rgba(50, 97, 46, 0.2) 0%, transparent 60%),
                 radial-gradient(circle, rgba(50, 97, 46, 0.22) 0%, transparent 65%),
-                
-                /* Линии */
                 linear-gradient(90deg, transparent 45%, rgba(50, 97, 46, 0.2) 45%, rgba(50, 97, 46, 0.2) 55%, transparent 55%),
                 linear-gradient(45deg, transparent 45%, rgba(50, 97, 46, 0.18) 45%, rgba(50, 97, 46, 0.18) 55%, transparent 55%);
             background-size: 
@@ -275,6 +269,7 @@
             gap: 8px;
             margin-bottom: 16px;
             flex-wrap: wrap;
+            position: relative;
         }
 
         input[type="text"] {
@@ -294,6 +289,58 @@
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .city-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 80px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+
+        .city-suggestions.active {
+            display: block;
+        }
+
+        .city-suggestion-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .city-suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .city-suggestion-item:hover {
+            background-color: var(--bg-secondary);
+            color: var(--accent);
+        }
+
+        .weather-stats {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .weather-stat {
+            background-color: var(--bg-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
         }
 
         button {
@@ -367,6 +414,17 @@
             transform: translateY(-2px);
         }
 
+        .btn-secondary {
+            background-color: var(--accent);
+            color: var(--btn-text);
+            font-size: 0.85rem;
+            padding: 8px 12px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-hover);
+        }
+
         /* ===== WEATHER WIDGET ===== */
         .weather-info {
             display: flex;
@@ -426,6 +484,39 @@
         }
 
         /* ===== TODO WIDGET ===== */
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .todo-counter {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background-color: var(--bg-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .todo-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
         .todo-list {
             list-style: none;
             flex: 1;
@@ -503,6 +594,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .todo-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
         }
 
         /* ===== QUOTE WIDGET ===== */
@@ -671,6 +769,10 @@
                 padding: 5px 10px;
                 font-size: 0.75rem;
             }
+
+            .city-suggestions {
+                right: 70px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -774,6 +876,15 @@
                 padding: 4px 8px;
                 font-size: 0.7rem;
             }
+
+            .todo-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .city-suggestions {
+                right: 60px;
+            }
         }
     </style>
 </head>
@@ -797,7 +908,8 @@
                     Погода
                 </div>
                 <div class="input-group">
-                    <input type="text" id="cityInput" placeholder="Введите город..." />
+                    <input type="text" id="cityInput" placeholder="Введите город..." autocomplete="off" />
+                    <div id="citySuggestions" class="city-suggestions"></div>
                     <button class="btn-primary" id="weatherBtn">Узнать</button>
                 </div>
                 <div id="weatherContainer"></div>
@@ -809,11 +921,31 @@
                     <span class="widget-title-icon">✅</span>
                     Список дел
                 </div>
+                <div class="todo-header">
+                    <div class="todo-counter">
+                        Выполнено: <span id="completedCount">0</span> / <span id="totalCount">0</span>
+                    </div>
+                    <div class="todo-controls">
+                        <select class="sort-select" id="sortSelect">
+                            <option value="date">По дате</option>
+                            <option value="completed">По статусу</option>
+                            <option value="alpha">По алфавиту</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="input-group">
-                    <input type="text" id="todoInput" placeholder="Новая задача..." />
-                    <button class="btn-primary" id="addTodoBtn">Добавить</button>
+                    <input type="text" id="todoInput" placeholder="Поиск задач..." />
                 </div>
                 <ul class="todo-list" id="todoList"></ul>
+                <div class="input-group" style="margin-top: 12px; flex-wrap: nowrap;">
+                    <input type="text" id="newTodoInput" placeholder="Новая задача..." />
+                    <button class="btn-primary" id="addTodoBtn">Добавить</button>
+                </div>
+                <div class="todo-actions">
+                    <button class="btn-secondary" id="exportBtn">📥 Экспорт</button>
+                    <button class="btn-secondary" id="importBtn">📤 Импорт</button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" />
+                </div>
             </div>
 
             <!-- Quote Widget -->
@@ -847,6 +979,15 @@
             { content: "Когда вы улыбаетесь, весь мир улыбается вместе с вами.", author: "Неизвестный автор" }
         ];
 
+        // ==================== CITY DATABASE ====================
+        const popularCities = [
+            "Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Казань",
+            "Киев", "Харьков", "Одесса", "Днепр", "Львов",
+            "Минск", "Гомель", "Витебск", "Брест", "Мозырь",
+            "Лондон", "Париж", "Берлин", "Мадрид", "Рим",
+            "Нью-Йорк", "Лос-Анджелес", "Чикаго", "Токио", "Сидней"
+        ];
+
         // ==================== THEME MANAGEMENT ====================
         const themeButtons = document.querySelectorAll('.theme-btn');
         const html = document.documentElement;
@@ -877,28 +1018,59 @@
 
         // ==================== WEATHER WIDGET ====================
         const cityInput = document.getElementById('cityInput');
+        const citySuggestions = document.getElementById('citySuggestions');
         const weatherBtn = document.getElementById('weatherBtn');
         const weatherContainer = document.getElementById('weatherContainer');
-        // ВСТАВЬТЕ ВАШЕ API КЛЮЧ ЗДЕСЬ: ef67706e992c6bbc9696aa5ba86e1fe7
         const WEATHER_API_KEY = 'ef67706e992c6bbc9696aa5ba86e1fe7';
 
         const weatherIcons = {
-            'Clear': '☀️',
-            'Clouds': '☁️',
-            'Rain': '🌧️',
-            'Drizzle': '🌦️',
-            'Thunderstorm': '⛈️',
-            'Snow': '❄️',
-            'Mist': '🌫️',
-            'Smoke': '💨',
-            'Haze': '🌫️',
-            'Dust': '🌪️',
-            'Fog': '🌫️',
-            'Sand': '🏜️',
-            'Ash': '🌋',
-            'Squall': '💨',
-            'Tornado': '🌪️'
+            'Clear': '☀️', 'Clouds': '☁️', 'Rain': '🌧️', 'Drizzle': '🌦️',
+            'Thunderstorm': '⛈️', 'Snow': '❄️', 'Mist': '🌫️', 'Smoke': '💨',
+            'Haze': '🌫️', 'Dust': '🌪️', 'Fog': '🌫️', 'Sand': '🏜️',
+            'Ash': '🌋', 'Squall': '💨', 'Tornado': '🌪️'
         };
+
+        function filterCities(input) {
+            const query = input.toLowerCase();
+            return popularCities.filter(city => city.toLowerCase().startsWith(query));
+        }
+
+        function showCitySuggestions(cities) {
+            citySuggestions.innerHTML = '';
+            if (cities.length === 0) {
+                citySuggestions.classList.remove('active');
+                return;
+            }
+            
+            cities.forEach(city => {
+                const item = document.createElement('div');
+                item.className = 'city-suggestion-item';
+                item.textContent = city;
+                item.addEventListener('click', () => {
+                    cityInput.value = city;
+                    citySuggestions.classList.remove('active');
+                    getWeather();
+                });
+                citySuggestions.appendChild(item);
+            });
+            citySuggestions.classList.add('active');
+        }
+
+        cityInput.addEventListener('input', (e) => {
+            const value = e.target.value.trim();
+            if (value.length > 0) {
+                const filtered = filterCities(value);
+                showCitySuggestions(filtered);
+            } else {
+                citySuggestions.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target !== cityInput && e.target !== citySuggestions) {
+                citySuggestions.classList.remove('active');
+            }
+        });
 
         function displayWeather(data) {
             const temp = Math.round(data.main.temp);
@@ -908,6 +1080,7 @@
             const country = data.sys.country;
             const feels = Math.round(data.main.feels_like);
             const humidity = data.main.humidity;
+            const windSpeed = Math.round(data.wind.speed);
 
             weatherContainer.innerHTML = `
                 <div class="weather-info">
@@ -916,8 +1089,12 @@
                         <div class="weather-temp">${temp}°C</div>
                         <div class="weather-description">${description}</div>
                         <div class="weather-city">${city}, ${country}</div>
-                        <div class="weather-city" style="font-size: 0.8rem;">Ощущается: ${feels}° | Влажность: ${humidity}%</div>
                     </div>
+                </div>
+                <div class="weather-stats">
+                    <div class="weather-stat">Ощущается: ${feels}°</div>
+                    <div class="weather-stat">Влажность: ${humidity}%</div>
+                    <div class="weather-stat">Ветер: ${windSpeed} м/с</div>
                 </div>
             `;
 
@@ -951,7 +1128,7 @@
                     if (response.status === 404) {
                         throw new Error('Город не найден. Проверьте написание.');
                     } else if (response.status === 401) {
-                        throw new Error('Ошибка API ключа. Проверьте настройки.');
+                        throw new Error('Ошибка API ключа.');
                     } else {
                         throw new Error('Ошибка получения данных о погоде.');
                     }
@@ -965,119 +1142,233 @@
             }
         }
 
+        // Геолокация
+        function getWeatherByGeolocation() {
+            if (navigator.geolocation) {
+                displayWeatherLoading();
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const { latitude, longitude } = position.coords;
+                        try {
+                            const response = await fetch(
+                                `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&lang=ru&appid=${WEATHER_API_KEY}`
+                            );
+                            if (!response.ok) throw new Error('Failed to fetch');
+                            const data = await response.json();
+                            displayWeather(data);
+                        } catch (error) {
+                            console.error('Geolocation weather error:', error);
+                        }
+                    },
+                    (error) => {
+                        console.log('Geolocation error:', error);
+                        // Если нет координат, загружаем последний город
+                        const lastCity = localStorage.getItem('lastCity');
+                        if (lastCity) {
+                            cityInput.value = lastCity;
+                            getWeather();
+                        }
+                    }
+                );
+            }
+        }
+
         weatherBtn.addEventListener('click', getWeather);
         cityInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') getWeather();
         });
 
-        // Load last city on page load
-        const lastCity = localStorage.getItem('lastCity');
-        if (lastCity) {
-            cityInput.value = lastCity;
-            getWeather();
-        }
+        // Загрузка при открытии страницы
+        window.addEventListener('load', () => {
+            const lastCity = localStorage.getItem('lastCity');
+            if (lastCity) {
+                cityInput.value = lastCity;
+                getWeather();
+            } else {
+                getWeatherByGeolocation();
+            }
+        });
 
         // ==================== TODO WIDGET ====================
         const todoInput = document.getElementById('todoInput');
+        const newTodoInput = document.getElementById('newTodoInput');
         const addTodoBtn = document.getElementById('addTodoBtn');
         const todoList = document.getElementById('todoList');
+        const sortSelect = document.getElementById('sortSelect');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const importFile = document.getElementById('importFile');
+        const completedCount = document.getElementById('completedCount');
+        const totalCount = document.getElementById('totalCount');
+
+        let allTodos = [];
 
         function saveTodos() {
-            const todos = Array.from(todoList.querySelectorAll('.todo-item')).map(item => ({
-                id: item.dataset.id,
-                text: item.querySelector('.todo-text').textContent,
-                completed: item.querySelector('.todo-checkbox').checked
-            }));
-            localStorage.setItem('todos', JSON.stringify(todos));
+            localStorage.setItem('todos', JSON.stringify(allTodos));
+            updateTodoStats();
+        }
+
+        function updateTodoStats() {
+            const completed = allTodos.filter(t => t.completed).length;
+            const total = allTodos.length;
+            completedCount.textContent = completed;
+            totalCount.textContent = total;
         }
 
         function loadTodos() {
             const saved = localStorage.getItem('todos');
             if (saved) {
                 try {
-                    const todos = JSON.parse(saved);
-                    todos.forEach(todo => addTodoToList(todo.text, todo.completed, todo.id));
+                    allTodos = JSON.parse(saved);
                 } catch (e) {
                     console.error('Error loading todos:', e);
+                    allTodos = [];
                 }
             }
+            renderTodos();
         }
 
-        function addTodoToList(text, completed = false, id = null) {
-            if (!id) {
-                id = Date.now().toString();
+        function sortTodos(todos, method) {
+            const sorted = [...todos];
+            switch(method) {
+                case 'alpha':
+                    sorted.sort((a, b) => a.text.localeCompare(b.text));
+                    break;
+                case 'completed':
+                    sorted.sort((a, b) => a.completed - b.completed);
+                    break;
+                case 'date':
+                default:
+                    sorted.sort((a, b) => a.id - b.id);
             }
-
-            const li = document.createElement('li');
-            li.className = 'todo-item';
-            if (completed) li.classList.add('completed');
-            li.dataset.id = id;
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'todo-checkbox';
-            checkbox.checked = completed;
-            checkbox.addEventListener('change', () => {
-                li.classList.toggle('completed');
-                saveTodos();
-            });
-
-            const span = document.createElement('span');
-            span.className = 'todo-text';
-            span.textContent = text;
-
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'btn-danger btn-small';
-            deleteBtn.textContent = '✕';
-            deleteBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                li.remove();
-                saveTodos();
-                updateTodoEmpty();
-            });
-
-            li.appendChild(checkbox);
-            li.appendChild(span);
-            li.appendChild(deleteBtn);
-            
-            // Удаляем сообщение о пустом списке, если оно есть
-            const emptyMsg = todoList.querySelector('.todo-empty');
-            if (emptyMsg) {
-                emptyMsg.remove();
-            }
-            
-            todoList.appendChild(li);
+            return sorted;
         }
 
-        function updateTodoEmpty() {
-            if (todoList.children.length === 0) {
+        function filterTodos(todos, searchTerm) {
+            if (!searchTerm) return todos;
+            return todos.filter(t => t.text.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        function renderTodos() {
+            const searchTerm = todoInput.value.trim();
+            const sortMethod = sortSelect.value;
+            
+            let filtered = filterTodos(allTodos, searchTerm);
+            let sorted = sortTodos(filtered, sortMethod);
+
+            todoList.innerHTML = '';
+            
+            if (sorted.length === 0) {
                 const emptyDiv = document.createElement('div');
                 emptyDiv.className = 'todo-empty';
-                emptyDiv.textContent = 'Нет задач. Добавьте новую!';
+                emptyDiv.textContent = searchTerm ? 'Задачи не найдены' : 'Нет задач. Добавьте новую!';
                 todoList.appendChild(emptyDiv);
+                return;
             }
+
+            sorted.forEach(todo => {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                if (todo.completed) li.classList.add('completed');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'todo-checkbox';
+                checkbox.checked = todo.completed;
+                checkbox.addEventListener('change', () => {
+                    const index = allTodos.findIndex(t => t.id === todo.id);
+                    allTodos[index].completed = !allTodos[index].completed;
+                    saveTodos();
+                    renderTodos();
+                });
+
+                const span = document.createElement('span');
+                span.className = 'todo-text';
+                span.textContent = todo.text;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn-danger btn-small';
+                deleteBtn.textContent = '✕';
+                deleteBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    allTodos = allTodos.filter(t => t.id !== todo.id);
+                    saveTodos();
+                    renderTodos();
+                });
+
+                li.appendChild(checkbox);
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                todoList.appendChild(li);
+            });
+
+            updateTodoStats();
         }
 
         function addTodo() {
-            const text = todoInput.value.trim();
+            const text = newTodoInput.value.trim();
             if (!text) return;
 
-            addTodoToList(text);
+            const newTodo = {
+                id: Date.now(),
+                text: text,
+                completed: false
+            };
+
+            allTodos.push(newTodo);
             saveTodos();
-            todoInput.value = '';
-            todoInput.focus();
+            renderTodos();
+            newTodoInput.value = '';
+            newTodoInput.focus();
+        }
+
+        function exportTodos() {
+            const dataStr = JSON.stringify(allTodos, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `todos-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importTodos(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        allTodos = imported;
+                        saveTodos();
+                        renderTodos();
+                        alert('✅ Задачи успешно импортированы!');
+                    }
+                } catch (error) {
+                    alert('❌ Ошибка при импорте файла');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
         }
 
         addTodoBtn.addEventListener('click', addTodo);
-        todoInput.addEventListener('keypress', (e) => {
+        newTodoInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') addTodo();
         });
 
-        // Initialize todos
+        todoInput.addEventListener('input', renderTodos);
+        sortSelect.addEventListener('change', renderTodos);
+
+        exportBtn.addEventListener('click', exportTodos);
+        importBtn.addEventListener('click', () => importFile.click());
+        importFile.addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                importTodos(e.target.files[0]);
+            }
+        });
+
         loadTodos();
-        if (todoList.children.length === 0) {
-            updateTodoEmpty();
-        }
 
         // ==================== QUOTE WIDGET ====================
         const quoteContainer = document.getElementById('quoteContainer');
@@ -1098,7 +1389,6 @@
         }
 
         function displayQuoteError() {
-            // Показываем локальную цитату при ошибке
             const randomQuote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
             displayQuote(randomQuote);
         }
@@ -1107,27 +1397,82 @@
             displayQuoteLoading();
 
             try {
-                // Пробуем загрузить цитату с добрыми/смешными тегами
                 const response = await fetch('https://api.quotable.io/random?tags=inspirational,humor&maxLength=200');
-                
                 if (!response.ok) throw new Error('Failed to fetch');
-
                 const quote = await response.json();
                 displayQuote(quote);
             } catch (error) {
                 console.error('Quote error:', error);
-                // Используем локальную цитату при ошибке
                 displayQuoteError();
             }
         }
 
         newQuoteBtn.addEventListener('click', getRandomQuote);
-
-        // Load initial quote
         getRandomQuote();
 
         // ==================== INITIALIZATION ====================
         initTheme();
+
+        // ==================== UNIT TESTS ====================
+        window.runTests = function() {
+            console.log('=== GREENWIND UNIT TESTS ===\n');
+
+            // Test 1: Filter cities
+            console.log('Test 1: filterCities()');
+            const test1 = filterCities('м');
+            console.assert(test1.includes('Москва'), 'Should find Москва');
+            console.assert(test1.includes('Мозырь'), 'Should find Мозырь');
+            console.assert(!test1.includes('Киев'), 'Should not find Киев');
+            console.log('✓ Passed\n');
+
+            // Test 2: Sort todos - alphabetical
+            console.log('Test 2: sortTodos() - alphabetical');
+            const todos = [
+                { id: 1, text: 'Яблоко', completed: false },
+                { id: 2, text: 'Апельсин', completed: false },
+                { id: 3, text: 'Банан', completed: false }
+            ];
+            const sorted = sortTodos(todos, 'alpha');
+            console.assert(sorted[0].text === 'Апельсин', 'First should be Апельсин');
+            console.assert(sorted[1].text === 'Банан', 'Second should be Банан');
+            console.assert(sorted[2].text === 'Яблоко', 'Third should be Яблоко');
+            console.log('✓ Passed\n');
+
+            // Test 3: Filter todos by search
+            console.log('Test 3: filterTodos() - search');
+            const filtered = filterTodos(todos, 'пел');
+            console.assert(filtered.length === 1, 'Should find 1 todo');
+            console.assert(filtered[0].text === 'Апельсин', 'Should find Апельсин');
+            console.log('✓ Passed\n');
+
+            // Test 4: Sort todos - by completion
+            console.log('Test 4: sortTodos() - by completion');
+            const mixedTodos = [
+                { id: 1, text: 'Task 1', completed: true },
+                { id: 2, text: 'Task 2', completed: false },
+                { id: 3, text: 'Task 3', completed: false }
+            ];
+            const sortedByCompletion = sortTodos(mixedTodos, 'completed');
+            console.assert(sortedByCompletion[0].completed === false, 'Incomplete tasks should be first');
+            console.assert(sortedByCompletion[2].completed === true, 'Completed tasks should be last');
+            console.log('✓ Passed\n');
+
+            // Test 5: Weather icons mapping
+            console.log('Test 5: Weather icons mapping');
+            console.assert(weatherIcons['Clear'] === '☀️', 'Clear should be ☀️');
+            console.assert(weatherIcons['Rain'] === '🌧️', 'Rain should be 🌧️');
+            console.assert(weatherIcons['Clouds'] === '☁️', 'Clouds should be ☁️');
+            console.log('✓ Passed\n');
+
+            // Test 6: Local quotes available
+            console.log('Test 6: Local quotes backup');
+            console.assert(localQuotes.length > 0, 'Should have local quotes');
+            console.assert(localQuotes[0].content.length > 0, 'Quote should have content');
+            console.assert(localQuotes[0].author.length > 0, 'Quote should have author');
+            console.log('✓ Passed\n');
+
+            console.log('=== ALL TESTS PASSED ===');
+        };
     </script>
 </body>
 </html>

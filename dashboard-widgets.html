@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дашборд Виджетов</title>
+    <title>GreenMind</title>
     <style>
         * {
             margin: 0;
@@ -88,25 +88,72 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
+            background-image: 
+                /* Треугольники */
+                polygon(0% 0%, 50% 100%, 100% 0%),
+                polygon(100% 100%, 0% 100%, 50% 0%),
+                polygon(0% 50%, 100% 0%, 100% 100%),
+                polygon(50% 0%, 100% 50%, 50% 100%),
+                
+                /* Дополнительные геометрические фигуры */
+                polygon(20% 30%, 40% 20%, 50% 45%),
+                polygon(70% 70%, 85% 60%, 90% 85%),
+                polygon(10% 80%, 25% 75%, 20% 95%),
+                polygon(80% 20%, 95% 15%, 90% 35%);
+            background-size: 
+                400px 400px,
+                350px 350px,
+                450px 400px,
+                380px 380px,
+                200px 250px,
+                300px 280px,
+                250px 200px,
+                200px 180px;
+            background-position: 
+                0% 0%,
+                50% 50%,
+                25% 75%,
+                75% 25%,
+                10% 20%,
+                60% 80%,
+                80% 10%,
+                40% 60%;
+            background-repeat: repeat;
+            background-attachment: fixed;
         }
 
         html[data-theme="forest"]::after {
             content: '';
             position: fixed;
-            bottom: 0;
-            right: 0;
-            width: 400px;
-            height: 400px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><path d="M200 50 L250 150 L200 180 L150 150 Z" fill="%23325f2d" opacity="0.4"/><path d="M150 100 L190 180 L160 200 L120 140 Z" fill="%23325f2d" opacity="0.3"/><path d="M250 120 L290 200 L260 220 L220 160 Z" fill="%23325f2d" opacity="0.35"/><circle cx="100" cy="300" r="50" fill="%23325f2d" opacity="0.2"/><circle cx="350" cy="350" r="70" fill="%23325f2d" opacity="0.25"/></svg>') no-repeat;
-            background-size: contain;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
-        }
-
-        html[data-theme="forest"]::before {
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><path d="M50 200 L80 100 L60 80 L30 150 Z" fill="%23325f2d" opacity="0.3"/><path d="M20 350 L50 250 L40 220 L10 300 Z" fill="%23325f2d" opacity="0.25"/><path d="M350 50 L380 120 L360 140 L330 80 Z" fill="%23325f2d" opacity="0.3"/></svg>') no-repeat;
-            background-size: cover;
-            background-position: top left;
+            pointer-events: none;
+            background-image: 
+                /* Круги разных размеров */
+                radial-gradient(circle, rgba(50, 97, 46, 0.25) 0%, transparent 70%),
+                radial-gradient(circle, rgba(50, 97, 46, 0.2) 0%, transparent 60%),
+                radial-gradient(circle, rgba(50, 97, 46, 0.22) 0%, transparent 65%),
+                
+                /* Линии */
+                linear-gradient(90deg, transparent 45%, rgba(50, 97, 46, 0.2) 45%, rgba(50, 97, 46, 0.2) 55%, transparent 55%),
+                linear-gradient(45deg, transparent 45%, rgba(50, 97, 46, 0.18) 45%, rgba(50, 97, 46, 0.18) 55%, transparent 55%);
+            background-size: 
+                300px 300px,
+                400px 400px,
+                350px 350px,
+                200px 200px,
+                280px 280px;
+            background-position: 
+                0% 0%,
+                100px 150px,
+                50px 250px,
+                0% 0%,
+                70px 100px;
+            background-repeat: repeat;
+            background-attachment: fixed;
         }
 
         .container {
@@ -116,7 +163,7 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             margin-bottom: 40px;
             flex-wrap: wrap;
@@ -124,10 +171,16 @@
         }
 
         .header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
             color: var(--text-primary);
-            letter-spacing: -0.5px;
+            text-align: center;
+            font-family: 'Georgia', 'Garamond', serif;
+        }
+
+        html[data-theme="forest"] .header h1 {
+            color: #32612e;
         }
 
         .theme-selector {
@@ -184,7 +237,7 @@
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 24px;
             margin-bottom: 40px;
-            margin-top: 80px;
+            margin-top: 20px;
         }
 
         .widget {
@@ -544,7 +597,7 @@
             }
 
             .header h1 {
-                font-size: 1.6rem;
+                font-size: 2.5rem;
             }
 
             .theme-selector {
@@ -630,7 +683,7 @@
             }
 
             .header h1 {
-                font-size: 1.3rem;
+                font-size: 1.8rem;
                 flex-basis: 100%;
             }
 
@@ -733,7 +786,7 @@
 
     <div class="container">
         <div class="header">
-            <h1>📊 Дашборд Виджетов</h1>
+            <h1>GreenMind</h1>
         </div>
 
         <div class="widgets-grid">

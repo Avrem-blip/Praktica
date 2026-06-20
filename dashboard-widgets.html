@@ -11,38 +11,102 @@
             box-sizing: border-box;
         }
 
+        /* ===== LIGHT THEME ===== */
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --bg-widget: #fafafa;
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-widget: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #666666;
             --border-color: #e0e0e0;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --success: #10b981;
-            --error: #ef4444;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --accent: #2c3e50;
+            --accent-hover: #1a252f;
+            --btn-bg: #000000;
+            --btn-text: #ffffff;
+            --btn-hover: #333333;
+            --success: #27ae60;
+            --error: #e74c3c;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
+        /* ===== DARK THEME ===== */
         html[data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --bg-widget: #262626;
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-widget: #2a2a2a;
             --text-primary: #f0f0f0;
             --text-secondary: #b0b0b0;
             --border-color: #404040;
+            --accent: #ecf0f1;
+            --accent-hover: #bdc3c7;
+            --btn-bg: #ffffff;
+            --btn-text: #000000;
+            --btn-hover: #dcdde1;
+            --success: #2ecc71;
+            --error: #e74c3c;
             --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
+        /* ===== FOREST THEME ===== */
+        html[data-theme="forest"] {
+            --bg-primary: #6b9d6f;
+            --bg-secondary: #7bbd75;
+            --bg-widget: #8fcf84;
+            --text-primary: #1a3a1a;
+            --text-secondary: #2d5a2d;
+            --border-color: #5a8f5e;
+            --accent: #1a3a1a;
+            --accent-hover: #0f2410;
+            --btn-bg: #4a8f4e;
+            --btn-text: #ffffff;
+            --btn-hover: #3a7f3e;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.4s ease, color 0.4s ease;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== FOREST THEME BACKGROUND DECORATIONS ===== */
+        html[data-theme="forest"]::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        html[data-theme="forest"]::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><path d="M200 50 L250 150 L200 180 L150 150 Z" fill="%23325f2d" opacity="0.4"/><path d="M150 100 L190 180 L160 200 L120 140 Z" fill="%23325f2d" opacity="0.3"/><path d="M250 120 L290 200 L260 220 L220 160 Z" fill="%23325f2d" opacity="0.35"/><circle cx="100" cy="300" r="50" fill="%23325f2d" opacity="0.2"/><circle cx="350" cy="350" r="70" fill="%23325f2d" opacity="0.25"/></svg>') no-repeat;
+            background-size: contain;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        html[data-theme="forest"]::before {
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><path d="M50 200 L80 100 L60 80 L30 150 Z" fill="%23325f2d" opacity="0.3"/><path d="M20 350 L50 250 L40 220 L10 300 Z" fill="%23325f2d" opacity="0.25"/><path d="M350 50 L380 120 L360 140 L330 80 Z" fill="%23325f2d" opacity="0.3"/></svg>') no-repeat;
+            background-size: cover;
+            background-position: top left;
         }
 
         .container {
@@ -60,93 +124,117 @@
         }
 
         .header h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
 
-        .theme-toggle {
+        .theme-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: var(--bg-secondary);
-            padding: 8px 14px;
-            border-radius: 50px;
+            gap: 8px;
+            background-color: var(--bg-widget);
+            padding: 10px 14px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
             border: 1px solid var(--border-color);
-            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .theme-toggle:hover {
-            background-color: var(--border-color);
+        .theme-selector:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
-        .theme-toggle-btn {
+        .theme-btn {
             background: none;
-            border: none;
-            font-size: 1.2rem;
+            border: 2px solid transparent;
+            font-size: 1.3rem;
             cursor: pointer;
-            color: var(--text-primary);
-            transition: transform 0.3s ease;
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .theme-toggle-btn:hover {
-            transform: rotate(20deg);
+        .theme-btn:hover {
+            background-color: var(--bg-primary);
+            transform: scale(1.15);
+        }
+
+        .theme-btn.active {
+            border-color: var(--accent);
+            background-color: var(--accent);
+            color: var(--btn-text);
+        }
+
+        html[data-theme="forest"] .theme-btn.active {
+            background-color: #4a8f4e;
+            border-color: #4a8f4e;
         }
 
         .widgets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 24px;
             margin-bottom: 40px;
+            margin-top: 80px;
         }
 
         .widget {
             background-color: var(--bg-widget);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 24px;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .widget:hover {
             box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
+            transform: translateY(-4px);
         }
 
         .widget-title {
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 20px;
             color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .widget-title-icon {
-            font-size: 1.8rem;
+            font-size: 2rem;
         }
 
         .input-group {
             display: flex;
             gap: 8px;
             margin-bottom: 16px;
+            flex-wrap: wrap;
         }
 
         input[type="text"] {
             flex: 1;
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            min-width: 120px;
+            padding: 12px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-size: 0.95rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-family: inherit;
         }
 
         input[type="text"]:focus {
@@ -156,33 +244,64 @@
         }
 
         button {
-            padding: 10px 18px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background-color: var(--accent);
-            color: white;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            flex: 0 0 auto;
+            min-width: 90px;
         }
 
         .btn-primary:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--btn-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-primary:active {
-            transform: translateY(0);
+        html[data-theme="forest"] .btn-primary {
+            background-color: var(--btn-bg);
+            box-shadow: 0 0 10px rgba(74, 143, 78, 0.3);
+        }
+
+        html[data-theme="forest"] .btn-primary:hover {
+            background-color: var(--btn-hover);
+            box-shadow: 0 0 20px rgba(74, 143, 78, 0.6);
+            transform: translateY(-2px) scale(1.02);
         }
 
         .btn-small {
-            padding: 6px 12px;
+            padding: 8px 14px;
             font-size: 0.85rem;
+            min-width: auto;
         }
 
         .btn-danger {
@@ -191,19 +310,11 @@
         }
 
         .btn-danger:hover {
-            background-color: #dc2626;
+            background-color: #c0392b;
+            transform: translateY(-2px);
         }
 
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #059669;
-        }
-
-        /* Weather Widget */
+        /* ===== WEATHER WIDGET ===== */
         .weather-info {
             display: flex;
             align-items: center;
@@ -211,12 +322,14 @@
             margin-top: 20px;
             padding: 16px;
             background-color: var(--bg-primary);
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
         }
 
         .weather-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
+            min-width: 80px;
+            text-align: center;
         }
 
         .weather-details {
@@ -224,59 +337,68 @@
         }
 
         .weather-temp {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--accent);
         }
 
         .weather-description {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            margin-top: 4px;
+            margin-top: 6px;
+            text-transform: capitalize;
         }
 
         .weather-city {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
         .weather-error {
             color: var(--error);
-            padding: 12px;
-            background-color: rgba(239, 68, 68, 0.1);
-            border-radius: 8px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 14px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
             margin-top: 16px;
+            font-size: 0.95rem;
         }
 
         .weather-loading {
             color: var(--text-secondary);
             font-style: italic;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* Todo Widget */
+        /* ===== TODO WIDGET ===== */
         .todo-list {
             list-style: none;
-            max-height: 400px;
+            flex: 1;
             overflow-y: auto;
+            max-height: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .todo-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px;
+            padding: 14px;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 10px;
             transition: all 0.3s ease;
+            flex-wrap: nowrap;
         }
 
         .todo-item:hover {
             background-color: var(--bg-secondary);
             border-color: var(--accent);
+            transform: translateX(4px);
         }
 
         .todo-item.completed {
@@ -289,25 +411,29 @@
         }
 
         .todo-checkbox {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             cursor: pointer;
+            flex-shrink: 0;
             accent-color: var(--success);
         }
 
         .todo-text {
             flex: 1;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
+            word-break: break-word;
+            min-width: 0;
         }
 
         .todo-delete-btn {
             background-color: transparent;
             color: var(--error);
-            padding: 6px 8px;
-            font-size: 0.85rem;
-            border: 1px solid var(--error);
-            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border: 1.5px solid var(--error);
+            border-radius: 6px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .todo-delete-btn:hover {
@@ -318,68 +444,84 @@
         .todo-empty {
             text-align: center;
             color: var(--text-secondary);
-            padding: 20px;
+            padding: 30px 20px;
             font-style: italic;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Quote Widget */
+        /* ===== QUOTE WIDGET ===== */
+        .quote-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
         .quote-container {
-            margin-top: 20px;
+            margin-bottom: 16px;
             padding: 20px;
             background-color: var(--bg-primary);
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             border-left: 4px solid var(--accent);
-            min-height: 120px;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
         .quote-text {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-style: italic;
             color: var(--text-primary);
             margin-bottom: 14px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .quote-author {
             font-size: 0.9rem;
             color: var(--text-secondary);
             text-align: right;
+            font-style: italic;
         }
 
         .quote-loading {
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.95rem;
+            padding: 20px;
         }
 
         .quote-error {
             color: var(--error);
             text-align: center;
+            padding: 20px;
+            font-size: 0.95rem;
         }
 
-        /* Scrollbar Styling */
+        /* ===== SCROLLBAR ===== */
         .todo-list::-webkit-scrollbar {
             width: 6px;
         }
 
         .todo-list::-webkit-scrollbar-track {
             background: var(--bg-primary);
+            border-radius: 10px;
         }
 
         .todo-list::-webkit-scrollbar-thumb {
             background: var(--accent);
-            border-radius: 3px;
+            border-radius: 10px;
         }
 
         .todo-list::-webkit-scrollbar-thumb:hover {
             background: var(--accent-hover);
         }
 
-        /* Animations */
+        /* ===== ANIMATIONS ===== */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -395,37 +537,86 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* Responsive */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
+            .header {
+                margin-bottom: 30px;
+            }
+
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+            }
+
+            .theme-selector {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                padding: 8px 10px;
             }
 
             .widgets-grid {
                 grid-template-columns: 1fr;
                 gap: 16px;
+                margin-top: 70px;
             }
 
             .widget {
                 padding: 16px;
             }
 
+            .widget-title {
+                font-size: 1.3rem;
+                margin-bottom: 16px;
+            }
+
             .weather-info {
                 flex-direction: column;
                 text-align: center;
-                gap: 12px;
+                gap: 16px;
             }
 
             .weather-icon {
-                font-size: 2.5rem;
+                font-size: 3rem;
+            }
+
+            .weather-temp {
+                font-size: 1.8rem;
             }
 
             .input-group {
-                flex-direction: column;
+                gap: 6px;
             }
 
-            button {
-                width: 100%;
+            input[type="text"] {
+                min-width: 100px;
+            }
+
+            .btn-primary {
+                min-width: 80px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .quote-text {
+                font-size: 0.95rem;
+            }
+
+            .todo-list {
+                max-height: 300px;
+            }
+
+            .todo-item {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .todo-text {
+                font-size: 0.9rem;
+            }
+
+            .todo-delete-btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
             }
         }
 
@@ -435,34 +626,114 @@
             }
 
             .header {
-                margin-bottom: 24px;
+                margin-bottom: 20px;
             }
 
             .header h1 {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                flex-basis: 100%;
+            }
+
+            .theme-selector {
+                top: 8px;
+                right: 8px;
+                padding: 6px 8px;
+            }
+
+            .theme-btn {
+                padding: 4px 8px;
+                font-size: 1.1rem;
+            }
+
+            .widgets-grid {
+                margin-top: 60px;
+                gap: 12px;
+            }
+
+            .widget {
+                padding: 14px;
+                border-radius: 12px;
             }
 
             .widget-title {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                gap: 8px;
+                margin-bottom: 12px;
             }
 
-            .weather-temp {
+            .widget-title-icon {
                 font-size: 1.5rem;
             }
 
+            .input-group {
+                gap: 4px;
+            }
+
+            input[type="text"] {
+                min-width: 80px;
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .btn-primary {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                min-width: 75px;
+            }
+
+            .weather-icon {
+                font-size: 2.5rem;
+                min-width: 60px;
+            }
+
+            .weather-temp {
+                font-size: 1.6rem;
+            }
+
+            .weather-description {
+                font-size: 0.9rem;
+            }
+
+            .quote-container {
+                min-height: 120px;
+                padding: 16px;
+            }
+
             .quote-text {
-                font-size: 0.95rem;
+                font-size: 0.9rem;
+                margin-bottom: 12px;
+                line-height: 1.6;
+            }
+
+            .quote-author {
+                font-size: 0.85rem;
+            }
+
+            .todo-item {
+                padding: 10px;
+            }
+
+            .todo-text {
+                font-size: 0.85rem;
+            }
+
+            .todo-delete-btn {
+                padding: 4px 8px;
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="theme-selector">
+        <button class="theme-btn active" data-theme="light" title="Светлая тема">☀️</button>
+        <button class="theme-btn" data-theme="dark" title="Тёмная тема">🌙</button>
+        <button class="theme-btn" data-theme="forest" title="Лесная тема">🌿</button>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>📊 Дашборд Виджетов</h1>
-            <div class="theme-toggle">
-                <button class="theme-toggle-btn" id="themeBtn" title="Переключить тему">🌙</button>
-            </div>
         </div>
 
         <div class="widgets-grid">
@@ -473,7 +744,7 @@
                     Погода
                 </div>
                 <div class="input-group">
-                    <input type="text" id="cityInput" placeholder="Введите название города..." />
+                    <input type="text" id="cityInput" placeholder="Введите город..." />
                     <button class="btn-primary" id="weatherBtn">Узнать</button>
                 </div>
                 <div id="weatherContainer"></div>
@@ -486,7 +757,7 @@
                     Список дел
                 </div>
                 <div class="input-group">
-                    <input type="text" id="todoInput" placeholder="Добавьте новую задачу..." />
+                    <input type="text" id="todoInput" placeholder="Новая задача..." />
                     <button class="btn-primary" id="addTodoBtn">Добавить</button>
                 </div>
                 <ul class="todo-list" id="todoList"></ul>
@@ -498,15 +769,33 @@
                     <span class="widget-title-icon">💬</span>
                     Цитата дня
                 </div>
-                <div id="quoteContainer"></div>
-                <button class="btn-primary" id="newQuoteBtn" style="width: 100%; margin-top: 16px;">Обновить</button>
+                <div class="quote-section">
+                    <div id="quoteContainer"></div>
+                    <button class="btn-primary" id="newQuoteBtn" style="width: 100%;">Обновить цитату</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // ==================== LOCAL QUOTES BACKUP ====================
+        const localQuotes = [
+            { content: "Жизнь — это замечательное приключение!", author: "Вильгельм II" },
+            { content: "Самый лучший день — это день, когда ты помог кому-то.", author: "Неизвестный автор" },
+            { content: "Улыбка — это кратчайшее расстояние между двумя людьми.", author: "Виктор Борге" },
+            { content: "В каждом дне скрывается чудо!", author: "Автор неизвестен" },
+            { content: "Доброта — это язык, на котором говорят глухие и понимают слепые.", author: "Марк Твен" },
+            { content: "Жизнь слишком коротка, чтобы пить плохое вино или общаться с неприятными людьми.", author: "Иоганн Вольфганг фон Гёте" },
+            { content: "Всё, что вас волнует, стоит того, чтобы улыбаться.", author: "Неизвестный автор" },
+            { content: "Радость — это валюта счастливого человека.", author: "Лилиан Смит" },
+            { content: "Жизнь — это путешествие, а не пункт назначения.", author: "Ральф Уолдо Эмерсон" },
+            { content: "Каждый новый день — это шанс измениться и стать лучше.", author: "Неизвестный автор" },
+            { content: "Смех — это лучшее лекарство для любой беды.", author: "Неизвестный автор" },
+            { content: "Когда вы улыбаетесь, весь мир улыбается вместе с вами.", author: "Неизвестный автор" }
+        ];
+
         // ==================== THEME MANAGEMENT ====================
-        const themeBtn = document.getElementById('themeBtn');
+        const themeButtons = document.querySelectorAll('.theme-btn');
         const html = document.documentElement;
 
         function initTheme() {
@@ -516,21 +805,29 @@
 
         function setTheme(theme) {
             html.setAttribute('data-theme', theme);
-            themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
             localStorage.setItem('theme', theme);
+            
+            themeButtons.forEach(btn => {
+                if (btn.dataset.theme === theme) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
         }
 
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
+        themeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setTheme(btn.dataset.theme);
+            });
         });
 
         // ==================== WEATHER WIDGET ====================
         const cityInput = document.getElementById('cityInput');
         const weatherBtn = document.getElementById('weatherBtn');
         const weatherContainer = document.getElementById('weatherContainer');
-        const WEATHER_API_KEY = '8fceacedc209cbffd2fa6c5fc2ca3822';
+        // ВСТАВЬТЕ ВАШЕ API КЛЮЧ ЗДЕСЬ: ef67706e992c6bbc9696aa5ba86e1fe7
+        const WEATHER_API_KEY = 'ef67706e992c6bbc9696aa5ba86e1fe7';
 
         const weatherIcons = {
             'Clear': '☀️',
@@ -556,6 +853,8 @@
             const icon = weatherIcons[description] || '🌡️';
             const city = data.name;
             const country = data.sys.country;
+            const feels = Math.round(data.main.feels_like);
+            const humidity = data.main.humidity;
 
             weatherContainer.innerHTML = `
                 <div class="weather-info">
@@ -564,6 +863,7 @@
                         <div class="weather-temp">${temp}°C</div>
                         <div class="weather-description">${description}</div>
                         <div class="weather-city">${city}, ${country}</div>
+                        <div class="weather-city" style="font-size: 0.8rem;">Ощущается: ${feels}° | Влажность: ${humidity}%</div>
                     </div>
                 </div>
             `;
@@ -577,18 +877,13 @@
         }
 
         function displayWeatherLoading() {
-            weatherContainer.innerHTML = `<div class="weather-loading">Загрузка...</div>`;
+            weatherContainer.innerHTML = `<div class="weather-loading">⏳ Загрузка погоды...</div>`;
         }
 
         async function getWeather() {
-            if (!WEATHER_API_KEY) {
-                displayWeatherError('❌ API ключ не указан. Пожалуйста, добавьте ключ OpenWeatherMap в код.');
-                return;
-            }
-
             const city = cityInput.value.trim();
             if (!city) {
-                displayWeatherError('❌ Пожалуйста, введите название города.');
+                displayWeatherError('⚠️ Введите название города');
                 return;
             }
 
@@ -601,9 +896,11 @@
 
                 if (!response.ok) {
                     if (response.status === 404) {
-                        throw new Error('Город не найден. Пожалуйста, проверьте название.');
+                        throw new Error('Город не найден. Проверьте написание.');
+                    } else if (response.status === 401) {
+                        throw new Error('Ошибка API ключа. Проверьте настройки.');
                     } else {
-                        throw new Error('Ошибка при получении данных о погоде.');
+                        throw new Error('Ошибка получения данных о погоде.');
                     }
                 }
 
@@ -611,6 +908,7 @@
                 displayWeather(data);
             } catch (error) {
                 displayWeatherError(`❌ ${error.message}`);
+                console.error('Weather error:', error);
             }
         }
 
@@ -619,10 +917,11 @@
             if (e.key === 'Enter') getWeather();
         });
 
-        // Load last city
+        // Load last city on page load
         const lastCity = localStorage.getItem('lastCity');
         if (lastCity) {
             cityInput.value = lastCity;
+            getWeather();
         }
 
         // ==================== TODO WIDGET ====================
@@ -642,8 +941,12 @@
         function loadTodos() {
             const saved = localStorage.getItem('todos');
             if (saved) {
-                const todos = JSON.parse(saved);
-                todos.forEach(todo => addTodoToList(todo.text, todo.completed, todo.id));
+                try {
+                    const todos = JSON.parse(saved);
+                    todos.forEach(todo => addTodoToList(todo.text, todo.completed, todo.id));
+                } catch (e) {
+                    console.error('Error loading todos:', e);
+                }
             }
         }
 
@@ -672,26 +975,40 @@
 
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'btn-danger btn-small';
-            deleteBtn.textContent = 'Удалить';
-            deleteBtn.addEventListener('click', () => {
+            deleteBtn.textContent = '✕';
+            deleteBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 li.remove();
-                if (todoList.children.length === 0) {
-                    todoList.innerHTML = '<div class="todo-empty">Нет задач. Добавьте новую!</div>';
-                }
                 saveTodos();
+                updateTodoEmpty();
             });
 
             li.appendChild(checkbox);
             li.appendChild(span);
             li.appendChild(deleteBtn);
+            
+            // Удаляем сообщение о пустом списке, если оно есть
+            const emptyMsg = todoList.querySelector('.todo-empty');
+            if (emptyMsg) {
+                emptyMsg.remove();
+            }
+            
             todoList.appendChild(li);
+        }
+
+        function updateTodoEmpty() {
+            if (todoList.children.length === 0) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.className = 'todo-empty';
+                emptyDiv.textContent = 'Нет задач. Добавьте новую!';
+                todoList.appendChild(emptyDiv);
+            }
         }
 
         function addTodo() {
             const text = todoInput.value.trim();
             if (!text) return;
 
-            todoList.querySelectorAll('.todo-empty').forEach(el => el.remove());
             addTodoToList(text);
             saveTodos();
             todoInput.value = '';
@@ -706,7 +1023,7 @@
         // Initialize todos
         loadTodos();
         if (todoList.children.length === 0) {
-            todoList.innerHTML = '<div class="todo-empty">Нет задач. Добавьте новую!</div>';
+            updateTodoEmpty();
         }
 
         // ==================== QUOTE WIDGET ====================
@@ -714,32 +1031,39 @@
         const newQuoteBtn = document.getElementById('newQuoteBtn');
 
         function displayQuote(quote) {
+            const authorClean = quote.author.replace(', type.essays', '').replace(', type.quote', '').split(',')[0];
             quoteContainer.innerHTML = `
                 <div class="quote-container">
                     <div class="quote-text">"${quote.content}"</div>
-                    <div class="quote-author">— ${quote.author.replace(', type.essays', '').replace(', type.quote', '')}</div>
+                    <div class="quote-author">— ${authorClean}</div>
                 </div>
             `;
         }
 
         function displayQuoteLoading() {
-            quoteContainer.innerHTML = '<div class="quote-loading">Загрузка цитаты...</div>';
+            quoteContainer.innerHTML = '<div class="quote-loading">⏳ Загрузка цитаты...</div>';
         }
 
         function displayQuoteError() {
-            quoteContainer.innerHTML = '<div class="quote-error">❌ Не удалось загрузить цитату. Проверьте интернет.</div>';
+            // Показываем локальную цитату при ошибке
+            const randomQuote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
+            displayQuote(randomQuote);
         }
 
         async function getRandomQuote() {
             displayQuoteLoading();
 
             try {
-                const response = await fetch('https://api.quotable.io/random?maxLength=200');
+                // Пробуем загрузить цитату с добрыми/смешными тегами
+                const response = await fetch('https://api.quotable.io/random?tags=inspirational,humor&maxLength=200');
+                
                 if (!response.ok) throw new Error('Failed to fetch');
 
                 const quote = await response.json();
                 displayQuote(quote);
             } catch (error) {
+                console.error('Quote error:', error);
+                // Используем локальную цитату при ошибке
                 displayQuoteError();
             }
         }
